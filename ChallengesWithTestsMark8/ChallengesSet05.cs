@@ -23,32 +23,34 @@ namespace ChallengesWithTestsMark8
 
         public bool IsAscendingOrder(int[] numbers)
         {
-            if (numbers == null)
-                return false;
-
+            if (numbers == null || numbers.Length == 0) return false;
+            int previousNumber = numbers[0];
             for (int i = 1; i < numbers.Length; i++)
             {
-                if (numbers[i] < numbers[i - 1])
+                if (numbers[i] < previousNumber)
                 {
                     return false;
                 }
+                previousNumber = numbers[i];
             }
-
             return true;
         }
 
         public int SumElementsThatFollowAnEven(int[] numbers)
         {
+            if (numbers == null) return 0;
             int sum = 0;
-
-            for (int i = 1; i < numbers.Length; i++)
+            for (int i = 0; i < numbers.Length; i++)
             {
-                if (numbers[i - 1] % 2 == 0)
+                if (numbers[i] % 2 == 0)
                 {
-                    sum += numbers[i];
+                    try { sum += numbers[i + 1]; }
+                    catch (System.IndexOutOfRangeException)
+                    {
+                        // no number to add to sum
+                    }
                 }
             }
-
             return sum;
         }
 
@@ -81,14 +83,17 @@ namespace ChallengesWithTestsMark8
 
         public double[] GetEveryFourthElement(List<double> elements)
         {
+            if (elements == null) return new double[0];
             List<double> everyFourth = new List<double>();
-
-            for (int i = 3; i < elements.Count; i += 4)
+            for (int i = 1; i <= elements.Count; i++)
             {
-                everyFourth.Add(elements[i]);
+                if (i % 4 == 0)
+                {
+                    everyFourth.Add(elements[i - 1]);
+                }
             }
-
             return everyFourth.ToArray();
+
         }
 
         public bool TwoDifferentElementsInArrayCanSumToTargetNumber(int[] nums, int targetNumber)
